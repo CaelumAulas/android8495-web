@@ -18,7 +18,9 @@ import android.widget.Toast
 import br.com.caelum.twittelumappweb.R
 import br.com.caelum.twittelumappweb.decodificaParaBase64
 import br.com.caelum.twittelumappweb.modelo.Tweet
+import br.com.caelum.twittelumappweb.modelo.Usuario
 import br.com.caelum.twittelumappweb.viewmodel.TweetViewModel
+import br.com.caelum.twittelumappweb.viewmodel.UsuarioViewModel
 import br.com.caelum.twittelumappweb.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_tweet.*
 import java.io.File
@@ -28,6 +30,10 @@ class TweetActivity : AppCompatActivity() {
 
     private lateinit var viewModel: TweetViewModel
     private var localFoto: String? = null
+
+    private val usuarioViewModel : UsuarioViewModel by lazy {
+        ViewModelProviders.of(this, ViewModelFactory).get(UsuarioViewModel::class.java)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,25 +58,14 @@ class TweetActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
         when (item?.itemId) {
-
             android.R.id.home -> finish()
-
-
             R.id.tweet_menu_cadastrar -> {
-
                 publicaTweet()
-
                 finish()
-
             }
-
-
             R.id.tweet_menu_foto -> {
-
                 tiraFoto()
-
             }
-
         }
 
         return true
@@ -96,6 +91,7 @@ class TweetActivity : AppCompatActivity() {
         Toast.makeText(this, "$tweet foi salvo com sucesso :D", Toast.LENGTH_LONG).show()
     }
 
+
     fun criaTweet(): Tweet {
 
         val campoDeMensagemDoTweet = findViewById<EditText>(R.id.tweet_mensagem)
@@ -104,7 +100,9 @@ class TweetActivity : AppCompatActivity() {
 
         val foto: String? = tweet_foto.tag as String?
 
-        return Tweet(mensagemDoTweet, foto)
+        val usuario = usuarioViewModel.usuarioLogado().value ?: Usuario("", "", "")
+
+        return Tweet(mensagem = mensagemDoTweet, foto=foto, usuario = usuario)
     }
 
 

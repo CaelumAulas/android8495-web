@@ -16,10 +16,10 @@ class TweetAdapter(private val tweets: List<Tweet>) : BaseAdapter() {
         val tweet = tweets[position]
 
         val inflater = LayoutInflater.from(parent?.context)
-        val view = inflater.inflate(R.layout.tweet_item, parent, false)
-
+        val view = convertView ?: inflater.inflate(R.layout.tweet_item, parent, false)
 
         view.item_conteudo.text = tweet.mensagem
+        view.item_foto.visibility = View.GONE
 
         tweet.foto?.let {
             view.item_foto.visibility = View.VISIBLE
