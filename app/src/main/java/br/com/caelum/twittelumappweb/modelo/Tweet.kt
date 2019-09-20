@@ -6,7 +6,8 @@ data class Tweet(
     val mensagem: String,
     val foto: String?,
     val id: Int = 0,
-
+    val latitude: Double,
+    val longitude: Double,
     @SerializedName("dono")
     val usuario: Usuario
 ) {

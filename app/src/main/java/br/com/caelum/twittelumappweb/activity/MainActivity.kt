@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import br.com.caelum.twittelumappweb.R
 import br.com.caelum.twittelumappweb.fragment.ListaFragment
+import br.com.caelum.twittelumappweb.fragment.MapsFragment
 import br.com.caelum.twittelumappweb.fragment.PesquisaFragment
 import br.com.caelum.twittelumappweb.viewmodel.UsuarioViewModel
 import br.com.caelum.twittelumappweb.viewmodel.ViewModelFactory
@@ -60,6 +61,8 @@ class MainActivity : AppCompatActivity() {
                     setTitle("Pesquisa")
                 }
                 R.id.menu_maps -> {
+                    exibeFragment(MapsFragment())
+                    setTitle("Mapão")
                 }
             }
             true

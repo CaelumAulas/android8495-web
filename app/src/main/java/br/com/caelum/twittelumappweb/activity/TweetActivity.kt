@@ -15,6 +15,7 @@ import android.view.MenuItem
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import br.com.caelum.twittelumappweb.GPS
 import br.com.caelum.twittelumappweb.R
 import br.com.caelum.twittelumappweb.decodificaParaBase64
 import br.com.caelum.twittelumappweb.modelo.Tweet
@@ -30,13 +31,17 @@ class TweetActivity : AppCompatActivity() {
 
     private lateinit var viewModel: TweetViewModel
     private var localFoto: String? = null
+    private lateinit var gps : GPS
 
-    private val usuarioViewModel : UsuarioViewModel by lazy {
+
+    private val usuarioViewModel: UsuarioViewModel by lazy {
         ViewModelProviders.of(this, ViewModelFactory).get(UsuarioViewModel::class.java)
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        gps = GPS(this)
+        gps.fazBusca()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tweet)
 
@@ -102,7 +107,15 @@ class TweetActivity : AppCompatActivity() {
 
         val usuario = usuarioViewModel.usuarioLogado().value ?: Usuario("", "", "")
 
-        return Tweet(mensagem = mensagemDoTweet, foto=foto, usuario = usuario)
+        val (latitude, longitude) = gps.pegaCoordenadas()
+
+        return Tweet(
+                mensagem = mensagemDoTweet,
+                foto = foto,
+                usuario = usuario,
+                latitude = latitude,
+                longitude = longitude
+        )
     }
 
 
